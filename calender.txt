@@ -1,0 +1,61 @@
+package com.example.hotelmanagementsystem.Activity;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.DatePickerDialog;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
+
+import com.example.hotelmanagementsystem.R;
+
+import java.util.Calendar;
+
+public class BookingFormActivity extends AppCompatActivity {
+
+    EditText dateofbirth;
+    ImageView calender;
+    int date,month,year;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_bookingform);
+
+        dateofbirth = findViewById(R.id.dateofbirth);
+        calender = findViewById(R.id.calender);
+
+        calender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final Calendar calendar = Calendar.getInstance();
+
+                date = calendar.get(Calendar.DATE);
+                month = calendar.get(Calendar.MONTH);
+                year = calendar.get(Calendar.YEAR);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(BookingFormActivity.this, android.R.style.Theme_DeviceDefault_Dialog, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int date) {
+
+                        dateofbirth.setText(date+"-"+(month+1)+"-"+year);
+                    }
+                }, year, month, date);
+
+                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis() - 1000);
+                datePickerDialog.show();
+
+            }
+        });
+
+        Spinner dropdown = findViewById(R.id.spinner1);
+        String[] items = new String[]{"Rajkot","Surat","Ahmadabad","Baroda","Jamnagar","Bhavnagar"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        dropdown.setAdapter(adapter);
+    }
+}
